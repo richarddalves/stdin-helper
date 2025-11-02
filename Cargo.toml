@@ -1,0 +1,14 @@
+[package]
+name = "stdin-helper"
+version = "0.1.0"
+edition = "2024"
+
+authors = ["Richard Dias Alves <dev@richardalves.com>"]
+description = "Simplify read_line method"
+repository = "https://github.com/richarddalves/stdin-helper"
+readme = "README.md"
+license = "MIT or Apache-2.0"
+keywords = ["input", "read line", "read input", "prompt", "stdin"]
+categories = ["command-line-interface"]
+
+[dependencies]
