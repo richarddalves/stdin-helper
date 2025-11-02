@@ -1,11 +1,16 @@
 use crate::*;
 
 // =======================================================
-//                   String alias
+//                   Text aliases
 // =======================================================
 
 /// Ask user for a String until a valid String is detected
 pub fn get_string(msg: &str) -> String {
+    get_input(msg)
+}
+
+/// Ask user for a char until a valid char is detected
+pub fn get_char(msg: &str) -> char {
     get_input(msg)
 }
 
