@@ -1,9 +1,11 @@
 //! Simplify read_line method
 
-mod aliases;
+pub mod aliases;
 
 use std::io::{self, Write};
 use std::str::FromStr;
+
+pub use aliases::*;
 
 /// ## Core function
 /// 

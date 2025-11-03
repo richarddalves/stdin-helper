@@ -1,7 +1,7 @@
 # stdin-helper
 
 ![Status](https://img.shields.io/badge/status-stable-green)
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
+![Version](https://img.shields.io/badge/version-1.0.1-blue)
 ![License](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-lightgrey)
 
 A simple, intuitive Rust library for reading typed user input from stdin. Stop fighting with `read_line()` and parsing - just ask for what you need.
@@ -18,7 +18,7 @@ Add to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-stdin-helper = "1.0.0"
+stdin-helper = "1.0.1"
 ```
 
 Or use cargo:
