@@ -1,95 +1,106 @@
-use crate::*;
+use std::{error::Error, str::FromStr};
+
+use super::numeric::Numeric;
+
+use super::{get_input, InputError, InputResult, BoolParseError};
 
 // =======================================================
-//                   Text aliases
+//                     Text Aliases
 // =======================================================
 
-/// Ask user for a String until a valid String is detected
-pub fn get_string(msg: &str) -> String {
-    get_input(msg)
+pub fn get_string(msg: &str, repeat: bool) -> InputResult<String> {
+    get_input(msg, repeat)
 }
 
-/// Ask user for a char until a valid char is detected
-pub fn get_char(msg: &str) -> char {
-    get_input(msg)
+pub fn get_char(msg: &str, repeat: bool) -> InputResult<char> {
+    get_input(msg, repeat)
 }
-
 
 // =======================================================
-//                   Number aliases
+//                     Number Aliases
 // =======================================================
 
-/// Ask user for a number until a valid number is detected
-pub fn get_number<T: FromStr>(msg: &str) -> T {
-    get_input(msg)
+pub fn get_number<T>(msg: &str, repeat: bool) -> InputResult<T>
+where
+    T: FromStr + Numeric,
+    T::Err: Error
+{
+    get_input(msg, repeat)
 }
 
-/// Gets a signed 8-bit integer (-128 to 127)
-pub fn get_i8(msg: &str) -> i8 {
-    get_input(msg)
+pub fn get_isize(msg: &str, repeat: bool) -> InputResult<isize> {
+    get_input(msg, repeat)
 }
 
-/// Gets an unsigned 8-bit integer (0 to 255)
-pub fn get_u8(msg: &str) -> u8 {
-    get_input(msg)
+pub fn get_i128(msg: &str, repeat: bool) -> InputResult<i128> {
+    get_input(msg, repeat)
+}
+pub fn get_i64(msg: &str, repeat: bool) -> InputResult<i64> {
+    get_input(msg, repeat)
+}
+pub fn get_i32(msg: &str, repeat: bool) -> InputResult<i32> {
+    get_input(msg, repeat)
+}
+pub fn get_i16(msg: &str, repeat: bool) -> InputResult<i16> {
+    get_input(msg, repeat)
+}
+pub fn get_i8(msg: &str, repeat: bool) -> InputResult<i8> {
+    get_input(msg, repeat)
 }
 
-/// Gets a signed 16-bit integer (-32,768 to 32,767)
-pub fn get_i16(msg: &str) -> i16 {
-    get_input(msg)
+pub fn get_usize(msg: &str, repeat: bool) -> InputResult<usize> {
+    get_input(msg, repeat)
 }
 
-/// Gets an unsigned 16-bit integer (0 to 65,535)
-pub fn get_u16(msg: &str) -> u16 {
-    get_input(msg)
+pub fn get_u128(msg: &str, repeat: bool) -> InputResult<u128> {
+    get_input(msg, repeat)
+}
+pub fn get_u64(msg: &str, repeat: bool) -> InputResult<u64> {
+    get_input(msg, repeat)
+}
+pub fn get_u32(msg: &str, repeat: bool) -> InputResult<u32> {
+    get_input(msg, repeat)
+}
+pub fn get_u16(msg: &str, repeat: bool) -> InputResult<u16> {
+    get_input(msg, repeat)
+}
+pub fn get_u8(msg: &str, repeat: bool) -> InputResult<u8> {
+    get_input(msg, repeat)
 }
 
-/// Gets a signed 32-bit integer (-2,147,483,648 to 2,147,483,647)
-pub fn get_i32(msg: &str) -> i32 {
-    get_input(msg)
+pub fn get_f64(msg: &str, repeat: bool) -> InputResult<f64> {
+    get_input(msg, repeat)
+}
+pub fn get_f32(msg: &str, repeat: bool) -> InputResult<f32> {
+    get_input(msg, repeat)
 }
 
-/// Gets an unsigned 32-bit integer (0 to 4,294,967,295)
-pub fn get_u32(msg: &str) -> u32 {
-    get_input(msg)
-}
+// =======================================================
+//                     Boolean Alias
+// =======================================================
 
-/// Gets a signed 64-bit integer
-pub fn get_i64(msg: &str) -> i64 {
-    get_input(msg)
-}
+pub fn get_bool(msg: &str, repeat: bool, true_values: &[&str], false_values: &[&str]) -> Result<bool, InputError<BoolParseError>> {
+    loop {
+        let input: String = match get_input(msg, repeat) {
+            Ok(valor) => valor,
 
-/// Gets an unsigned 64-bit integer
-pub fn get_u64(msg: &str) -> u64 {
-    get_input(msg)
-}
+            Err(InputError::Io(io_err)) => return Err(InputError::Io(io_err)),
 
-/// Gets a signed 128-bit integer
-pub fn get_i128(msg: &str) -> i128 {
-    get_input(msg)
-}
+            Err(InputError::Parse(_)) => return Err(InputError::Parse(BoolParseError("A strange error occurred. This error should be impossible")))
+        };
 
-/// Gets an unsigned 128-bit integer
-pub fn get_u128(msg: &str) -> u128 {
-    get_input(msg)
-}
-
-/// Gets a 32-bit floating point number
-pub fn get_f32(msg: &str) -> f32 {
-    get_input(msg)
-}
-
-/// Gets a 64-bit floating point number
-pub fn get_f64(msg: &str) -> f64 {
-    get_input(msg)
-}
-
-/// Gets a pointer-sized signed integer
-pub fn get_isize(msg: &str) -> isize {
-    get_input(msg)
-}
-
-/// Gets a pointer-sized unsigned integer
-pub fn get_usize(msg: &str) -> usize {
-    get_input(msg)
+        let input = input.trim().to_lowercase();
+        
+        if true_values.contains(&input.as_str()) {
+            return Ok(true)
+        } else if false_values.contains(&input.as_str()){
+            return Ok(false)
+        } else {
+            if repeat {
+                continue;
+            } else {
+                return Err(InputError::Parse(BoolParseError("Invalid Value")))
+            }
+        }
+    }
 }
